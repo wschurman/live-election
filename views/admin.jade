@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  // script(type='text/javascript', src='/js/admin.js')
+  script(type='text/javascript', src='/js/admin.js')
   h1 Election Admin
 
   ul.nav.nav-tabs
@@ -16,7 +16,7 @@ block content
     
     #polls.tab-pane
       h3 Current Position
-      .btn-group(data-toggle="buttons-radio")
+      #positions.btn-group(data-toggle="buttons-radio")
         button.btn(name="president") President
         button.btn(name="vice-president") Vice President
         button.btn(name="treasurer") Treasurer
@@ -29,10 +29,10 @@ block content
 
       h3 Who's Running
       #people
-        button.btn(data-toggle="button") Person 1
-        button.btn(data-toggle="button") Person 2
-        button.btn(data-toggle="button") Person 3
-        button.btn(data-toggle="button") Person 4
-        button.btn(data-toggle="button") Person 5
+        button.btn(data-toggle="button", name="person1") Person 1
+        button.btn(data-toggle="button", name="person2") Person 2
+        button.btn(data-toggle="button", name="person3") Person 3
+        button.btn(data-toggle="button", name="person4") Person 4
+        button.btn(data-toggle="button", name="person5") Person 5
 
       button.btn.btn-primary#updatePosition Update Position

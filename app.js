@@ -6,6 +6,7 @@
 var express = require('express')
   , routes = require('./routes')
   , nowjs = require('now')
+  , _ = require('underscore')
   , http = require('http')
   , path = require('path');
 
@@ -52,17 +53,27 @@ var users = {};
 everyone.now.updateCurrentPosition = function(pos, cd) {
   currentPosition = pos;
   candidates = cd;
+
+  console.log(pos, cd);
+
+  try {
+    everyone.now.updateMyCurrentPosition(pos, cd);
+  } catch(e) {
+
+  }
 }
 
 everyone.now.resetSentiment = function() {
-  for (var user in users) {
-    users[user].sentiment = 0;
-  }
+  _.each(everyone.users, function(user) {
+    if (user.user.sentiment) {
+      user.user.sentiment = 0;
+    }
+  });
 
   try {
-    everyone.now.resetSentiment();
+    everyone.now.resetMySentiment();
   } catch(e) {
-    console.log(e);
+    // odd
   }
 }
 
@@ -70,50 +81,61 @@ everyone.now.resetSentiment = function() {
 
 everyone.now.getExitPollResults = function() {
   var me = this;
-
   var votes = {};
-  var i = 0;
 
   for (var c in candidates) {
     votes[c] = 0;
   }
 
-  for (var user in users) {
-    votes[users[user].votes[currentPosition]] += 1;
-  }
+  _.each(everyone.users, function(user) {
+    if (user.user.votes && user.user.votes[currentPosition]) {
+      votes[user.user.votes[currentPosition]] += 1;
+    }
+  });
+
+  finalVotes = _.keys(votes);
+  finalVotes = _.sortBy(finalVotes, function(name) {
+    return -1 * votes[name];
+  });
 
   // anonymize data
 
-  me.now.recieveExitPollResults(votes);
+  me.now.receiveExitPollResults(currentPosition, finalVotes);
 }
 
 /* Voter methods */
 
 everyone.now.updateSentiment = function(val) {
-  var me = this;
-  console.log(me);
-  // users[me].sentiment = val;
+  var me = this.user;
+  me.sentiment = val;
+  console.log("updateSentiment:", me);
 }
 
-everyone.now.voteExitPoll = function(pos, vote) {
-  var me = this;
-  console.log(me);
-  // users[me].votes[pos] = vote
+everyone.now.voteExitPoll = function(candidate) {
+  var me = this.user;
+  me.votes = me.votes || {};
+  me.votes[currentPosition] = candidate;
 }
 
 var updateGraph = function() {
   var total = 0.0;
   var i = 0;
 
-  for (var user in users) {
-    total += users[user].sentiment;
-    i++;
-  }
+  _.each(everyone.users, function(user) {
+    if (user.user.sentiment) {
+      total += user.user.sentiment;
+      i++;
+    }
+  });
 
   var finalVal = total / i;
 
   // send finalVal to the admin panel
-  everyone.now.recieveSentimentData(finalVal);
+  try {
+    everyone.now.receiveSentimentData(finalVal);
+  } catch(e) {
+    // not dash
+  }
 }
 
-// setInterval(); for updateGraph
+setInterval(updateGraph, 500);

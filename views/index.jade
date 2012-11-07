@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  // script(type='text/javascript', src='/js/client.js')
+  script(type='text/javascript', src='/js/client.js')
   h1 Election
   
   ul.nav.nav-tabs
@@ -14,9 +14,10 @@ block content
     #sentiment.tab-pane.active
       h3 Sentiment
       .btn-group(data-toggle="buttons-radio")
-        button#dec.btn -
-        button#neu.btn neutral
-        button#inc.btn +
+        button#dec.btn.btn-large(data-val="-1") -
+        button#neu.btn.btn-large(data-val="0") neutral
+        button#inc.btn.btn-large(data-val="1") +
     
     #polls.tab-pane
-      p This is polls
+      h3#position
+      #candidates.btn-group(data-toggle="buttons-radio")
