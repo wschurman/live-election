@@ -1,0 +1,38 @@
+extends layout
+
+block content
+  // script(type='text/javascript', src='/js/admin.js')
+  h1 Election Admin
+
+  ul.nav.nav-tabs
+    li.active
+      a(href="#sentiment", data-toggle="tab") Debates
+    li
+      a(href="#polls", data-toggle="tab") Exit Polls
+  
+  .tab-content
+    #sentiment.tab-pane.active
+      button#reset.btn Reset Sentiment
+    
+    #polls.tab-pane
+      h3 Current Position
+      .btn-group(data-toggle="buttons-radio")
+        button.btn(name="president") President
+        button.btn(name="vice-president") Vice President
+        button.btn(name="treasurer") Treasurer
+        button.btn(name="recruitment") Recruitment
+        button.btn(name="social") Social
+        button.btn(name="house-manager") House Manager
+        button.btn(name="daa") DAA
+        button.btn(name="saa") SAA
+        button.btn(name="secretary") Secretary
+
+      h3 Who's Running
+      #people
+        button.btn(data-toggle="button") Person 1
+        button.btn(data-toggle="button") Person 2
+        button.btn(data-toggle="button") Person 3
+        button.btn(data-toggle="button") Person 4
+        button.btn(data-toggle="button") Person 5
+
+      button.btn.btn-primary#updatePosition Update Position

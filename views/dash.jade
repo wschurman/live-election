@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  // script(type='text/javascript', src='/js/dash.js')
+  h1 Election Dashboard
+
+  ul.nav.nav-tabs
+    li.active
+      a(href="#sentiment", data-toggle="tab") Debates
+    li
+      a(href="#polls", data-toggle="tab") Exit Polls
+  
+  .tab-content
+    #sentiment.tab-pane.active
+      h3 Current Sentiment
+      canvas(width="600", height="200")#sentimentcanvas &nbsp;
+    
+    #polls.tab-pane
+      button.btn.btn-primary#updateResults Update Results
+      h3 Current Position:
+
+      p#position
+
+      h3 Exit Poll Standings:
+      ul#people

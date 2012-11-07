@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  // script(type='text/javascript', src='/js/client.js')
+  h1 Election
+  
+  ul.nav.nav-tabs
+    li.active
+      a(href="#sentiment", data-toggle="tab") Debates
+    li
+      a(href="#polls", data-toggle="tab") Exit Polls
+  
+  .tab-content
+    #sentiment.tab-pane.active
+      h3 Sentiment
+      .btn-group(data-toggle="buttons-radio")
+        button#dec.btn -
+        button#neu.btn neutral
+        button#inc.btn +
+    
+    #polls.tab-pane
+      p This is polls
