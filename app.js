@@ -41,13 +41,14 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 });
 
 var everyone = nowjs.initialize(
-  server,
-  {
-    socketio: {
-      transports: ['xhr-polling', 'jsonp-polling'],
-      "polling duration": 10
-    }
-  }
+  server
+  // heroku stuff
+  // {
+  //   socketio: {
+  //     transports: ['xhr-polling', 'jsonp-polling'],
+  //     "polling duration": 10
+  //   }
+  // }
 );
 
 /* now.js methods */
