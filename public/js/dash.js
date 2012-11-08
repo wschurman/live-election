@@ -9,16 +9,19 @@ $(document).ready(function(){
       verticalSections: 2
     }
   });
-  smoothie.streamTo(document.getElementById("sentimentcanvas"), 1000);
+  smoothie.streamTo(document.getElementById("sentimentcanvas"), 1500);
 
-  var line = new TimeSeries();
+  var line_1 = new TimeSeries();
+  var line_2 = new TimeSeries();
 
-  smoothie.addTimeSeries(line, { strokeStyle:'rgb(255, 0, 0)', lineWidth:2 });
+  smoothie.addTimeSeries(line_1, { strokeStyle:'rgb(0, 255, 0)', lineWidth:3 });
+  smoothie.addTimeSeries(line_2, { strokeStyle:'rgb(255, 0, 0)', lineWidth:3 });
 
-  now.receiveSentimentData = function(val) {
+  now.receiveSentimentData = function(vals) {
     var t = new Date().getTime();
 
-    line.append(t, val);
+    line_1.append(t, vals[0]); // first floor
+    line_2.append(t, vals[1]); // second floor
   }
 
   now.receiveExitPollResults = function(pos, results) {
@@ -26,15 +29,15 @@ $(document).ready(function(){
 
     $("#position").text(pos);
 
-    $("#people").html("");
+    $("#people").html("<tr><th>Position</th><th>Name</th></tr>");
 
     $.each(results, function(result) {
-      $("#people").append("<li>"+results[result]+"</li>");
+      $("#people").append("<tr><td>"+(result+1)+"</td><td>"+results[result]+"</td></tr>");
     });
   }
 
-  $("#updateResults").click(function() {
-    now.getExitPollResults();
-  });
+  now.updateMyCurrentPosition = function(_, _b) {
+    $("#pollsli").click();
+  }
 
 });

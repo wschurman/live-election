@@ -40,7 +40,15 @@ var server = http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
 
-var everyone = nowjs.initialize(server);
+var everyone = nowjs.initialize(
+  server,
+  {
+    socketio: {
+      transports: ['xhr-polling', 'jsonp-polling'],
+      "polling duration": 10
+    }
+  }
+);
 
 /* now.js methods */
 
@@ -53,8 +61,6 @@ var users = {};
 everyone.now.updateCurrentPosition = function(pos, cd) {
   currentPosition = pos;
   candidates = cd;
-
-  console.log(pos, cd);
 
   try {
     everyone.now.updateMyCurrentPosition(pos, cd);
@@ -89,10 +95,13 @@ everyone.now.getExitPollResults = function() {
 
   _.each(everyone.users, function(user) {
     if (user.user.votes && user.user.votes[currentPosition]) {
-      votes[user.user.votes[currentPosition]] += 1;
+      if (Math.random() < 0.25) {
+        votes[user.user.votes[currentPosition]] += 1;
+      }
     }
   });
 
+  // reverse so winner is at top
   finalVotes = _.keys(votes);
   finalVotes = _.sortBy(finalVotes, function(name) {
     return -1 * votes[name];
@@ -100,15 +109,23 @@ everyone.now.getExitPollResults = function() {
 
   // anonymize data
 
-  me.now.receiveExitPollResults(currentPosition, finalVotes);
+  try {
+    everyone.now.receiveExitPollResults(currentPosition, finalVotes);
+  } catch(e) {
+
+  }
 }
 
 /* Voter methods */
 
+everyone.now.updateFloor = function(val) {
+  var me = this.user;
+  me.floor = val - 1; // 0th floor is 1st floor
+}
+
 everyone.now.updateSentiment = function(val) {
   var me = this.user;
   me.sentiment = val;
-  console.log("updateSentiment:", me);
 }
 
 everyone.now.voteExitPoll = function(candidate) {
@@ -118,24 +135,39 @@ everyone.now.voteExitPoll = function(candidate) {
 }
 
 var updateGraph = function() {
-  var total = 0.0;
+  var totals = [0.0, 0.0];
+  var numVoters = [0, 0];
   var i = 0;
 
   _.each(everyone.users, function(user) {
-    if (user.user.sentiment) {
-      total += user.user.sentiment;
+    if (user.user.sentiment != null) {
+
+      if (user.user.floor != null) {
+        totals[user.user.floor] += user.user.sentiment;
+        numVoters[user.user.floor] += 1;
+      } else {
+        totals[0] += user.user.sentiment * 0.5;
+        totals[1] += user.user.sentiment * 0.5;
+        numVoters[0] += 0.5;
+        numVoters[1] += 0.5;
+      }
+      
       i++;
     }
   });
 
-  var finalVal = total / i;
+  var finalVals = _.map(totals, function(total, key) {
+    return total / numVoters[key];
+  });
+
+  // console.log(totals, numVoters, finalVals);
 
   // send finalVal to the admin panel
   try {
-    everyone.now.receiveSentimentData(finalVal);
+    everyone.now.receiveSentimentData(finalVals);
   } catch(e) {
     // not dash
   }
 }
 
-setInterval(updateGraph, 500);
+setInterval(updateGraph, 400);

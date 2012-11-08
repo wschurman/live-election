@@ -8,6 +8,8 @@ $(document).ready(function(){
     $.each(cd, function(candidate, _) {
       $("#candidates").append("<button class='btn' name='"+candidate+"'>"+candidate+"</button>");
     });
+
+    $("#pollsli").click();
   }
   
   now.resetMySentiment = function() {
@@ -15,7 +17,13 @@ $(document).ready(function(){
     $("#sentiment button").each(function() {
       $(this).removeClass("active");
     });
+
+    $("#neu").addClass("active");
   }
+
+  $("#floor button").click(function() {
+    now.updateFloor(parseInt($(this).attr("data-val")));
+  });
 
   $("#sentiment button").click(function() {
     now.updateSentiment(parseInt($(this).attr("data-val")));

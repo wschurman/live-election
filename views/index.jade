@@ -2,22 +2,32 @@ extends layout
 
 block content
   script(type='text/javascript', src='/js/client.js')
-  h1 Election
   
+  h3 Choose Your Floor
+  #floor
+    .btn-group(data-toggle="buttons-radio")
+      button.btn.btn-large(data-val="1") First
+      button.btn.btn-large(data-val="2") Second
+
+  br
+  br
+
   ul.nav.nav-tabs
     li.active
       a(href="#sentiment", data-toggle="tab") Debates
     li
-      a(href="#polls", data-toggle="tab") Exit Polls
+      a#pollsli(href="#polls", data-toggle="tab") Exit Polls
   
   .tab-content
     #sentiment.tab-pane.active
       h3 Sentiment
       .btn-group(data-toggle="buttons-radio")
-        button#dec.btn.btn-large(data-val="-1") -
+        button#dec.btn.btn-large(data-val="-1")
+          i.icon-minus
         button#neu.btn.btn-large(data-val="0") neutral
-        button#inc.btn.btn-large(data-val="1") +
+        button#inc.btn.btn-large(data-val="1")
+          i.icon-plus
     
     #polls.tab-pane
-      h3#position
+      h3#position N/A
       #candidates.btn-group(data-toggle="buttons-radio")

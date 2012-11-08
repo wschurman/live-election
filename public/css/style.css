@@ -1,0 +1,25 @@
+#sentiment {
+  width: 100%;
+}
+
+#ibox {
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.red {
+  background-color: rgb(255, 0, 0);
+}
+.green {
+  background-color: rgb(0, 255, 0);
+}
+
+#people button {
+  margin-right: 10px;
+}
+
+.row {
+  margin: 10px 0;
+}

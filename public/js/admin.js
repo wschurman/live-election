@@ -25,5 +25,9 @@ $(document).ready(function(){
     now.updateCurrentPosition(active, currentCandidates);
 
   });
+
+  $("#updateResults").click(function() {
+    now.getExitPollResults();
+  });
   
 });

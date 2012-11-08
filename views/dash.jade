@@ -9,18 +9,22 @@ block content
     li.active
       a(href="#sentiment", data-toggle="tab") Debates
     li
-      a(href="#polls", data-toggle="tab") Exit Polls
+      a#pollsli(href="#polls", data-toggle="tab") Exit Polls
   
   .tab-content
     #sentiment.tab-pane.active
       h3 Current Sentiment
-      canvas(width="600", height="200")#sentimentcanvas &nbsp;
+      canvas(width="600px", height="200")#sentimentcanvas &nbsp;
+      .row
+        .span2
+          #ibox.green
+          span First Floor
+        .span2
+          #ibox.red
+          span Second Floor
+
     
     #polls.tab-pane
-      button.btn.btn-primary#updateResults Update Results
-      h3 Current Position:
-
-      p#position
-
-      h3 Exit Poll Standings:
-      ol#people
+      h3 Exit Poll Standings (based on a ~20% random sample):
+      h3#position
+      table.table.table-striped#people
