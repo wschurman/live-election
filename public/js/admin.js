@@ -2,7 +2,7 @@ $(document).ready(function(){
 
   var getPosition = function() {
     return $("#positions button.active").attr("name");
-  }
+  };
 
   var getCandidates = function() {
     var names = {};
@@ -12,7 +12,7 @@ $(document).ready(function(){
     });
 
     return names;
-  }
+  };
 
   $("#reset").click(function() {
     now.resetSentiment();
@@ -28,6 +28,10 @@ $(document).ready(function(){
 
   $("#updateResults").click(function() {
     now.getExitPollResults();
+  });
+
+  $("#switchToDebates").click(function() {
+    now.switchToDebates();
   });
   
 });

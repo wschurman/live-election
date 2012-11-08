@@ -84,6 +84,14 @@ everyone.now.resetSentiment = function() {
   }
 }
 
+everyone.now.switchToDebates = function() {
+  try {
+    everyone.now.switchMeToDebates();
+  } catch(e) {
+    
+  }
+}
+
 /* Dashboard methods */
 
 everyone.now.getExitPollResults = function() {
@@ -91,21 +99,32 @@ everyone.now.getExitPollResults = function() {
   var votes = {};
 
   for (var c in candidates) {
-    votes[c] = 0;
+    votes[c] = {
+      v: [0, 0],
+      c: 0
+    };
   }
 
   _.each(everyone.users, function(user) {
-    if (user.user.votes && user.user.votes[currentPosition]) {
-      if (Math.random() < 0.25) {
-        votes[user.user.votes[currentPosition]] += 1;
+    if (user.user.votes != null && user.user.votes[currentPosition] != null) {
+      if (user.user.floor != null) {
+        votes[user.user.votes[currentPosition]].v[user.user.floor] += 1;
+      } else {
+        votes[user.user.votes[currentPosition]].v[0] += .5;
+        votes[user.user.votes[currentPosition]].v[1] += .5;
       }
+      votes[user.user.votes[currentPosition]].c += 1;
     }
   });
 
-  // reverse so winner is at top
-  finalVotes = _.keys(votes);
-  finalVotes = _.sortBy(finalVotes, function(name) {
-    return -1 * votes[name];
+  // do percentage of individual votes, anonymize
+
+  var finalVotes = _.map(votes, function(arr, k) {
+    return {
+      name: k,
+      first: arr.v[0] / arr.c,
+      second: arr.v[1] / arr.c
+    };
   });
 
   // anonymize data

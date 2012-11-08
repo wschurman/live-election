@@ -10,7 +10,7 @@ $(document).ready(function(){
     });
 
     $("#pollsli").click();
-  }
+  };
   
   now.resetMySentiment = function() {
     // do reset of sentiment
@@ -32,5 +32,9 @@ $(document).ready(function(){
   $("#candidates button").live('click', function() {
     now.voteExitPoll($(this).attr("name"));
   });
+
+  now.switchMeToDebates = function() {
+    $("#debatesli").click();
+  };
 
 });

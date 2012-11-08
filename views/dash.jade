@@ -7,7 +7,7 @@ block content
 
   ul.nav.nav-tabs
     li.active
-      a(href="#sentiment", data-toggle="tab") Debates
+      a#debatesli(href="#sentiment", data-toggle="tab") Debates
     li
       a#pollsli(href="#polls", data-toggle="tab") Exit Polls
   
@@ -25,6 +25,6 @@ block content
 
     
     #polls.tab-pane
-      h3 Exit Poll Standings (based on a ~20% random sample):
+      h3 Exit Poll Standings by % of votes on floor:
       h3#position
       table.table.table-striped#people
