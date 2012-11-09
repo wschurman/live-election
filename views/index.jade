@@ -31,3 +31,16 @@ block content
     #polls.tab-pane
       h3#position N/A
       #candidates.btn-group(data-toggle="buttons-radio")
+
+  #qModal.modal.hide.fade(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true")
+    .modal-header
+      button.close(data-dismiss="modal", aria-hidden="true") ×
+      h3#myModalLabel Instant Poll Question
+    .modal-body#anss
+      h4#question
+      .row
+        button.btn.btn-primary#ans1(data-dismiss="modal", aria-hidden="true")
+      .row
+        button.btn.btn-primary#ans2(data-dismiss="modal", aria-hidden="true")
+    .modal-footer
+      button.btn(data-dismiss="modal", aria-hidden="true") Close

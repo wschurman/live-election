@@ -41,8 +41,7 @@ $(document).ready(function(){
 
     $("#people").html("<tr><th>Name</th><th>% First</th><th>% Second</th></tr>");
 
-    $.each(results, function(result) {
-      var res = results[result];
+    $.each(results, function(_, res) {
 
       var fst = res.first * 100;
       var snd = res.second * 100;
@@ -64,6 +63,36 @@ $(document).ready(function(){
 
   now.switchMeToDebates = function() {
     $("#debatesli").click();
+  };
+
+  now.recieveInstantQuestionResults = function(question, answers) {
+
+    $("#question").text(question);
+
+    $("#answers").html("");
+
+    // display question
+    var total = 0;
+    $.each(answers, function(ans, count) {
+      total += count;
+    });
+
+    var i = 0;
+    $.each(answers, function(ans, count) {
+      var pct = count / total * 100;
+
+      if (i == 0) {
+        $("#answers").append(
+          '<div class="bar" style="width: '+pct+'%;">'+ans+'</div>'
+        );
+      } else {
+        $("#answers").append(
+          '<div class="bar bar-success" style="width: '+pct+'%;">'+ans+'</div>'
+        );
+      }
+      
+      i += 1;
+    });
   };
 
 });

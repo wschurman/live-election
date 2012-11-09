@@ -7,8 +7,10 @@ $(document).ready(function(){
   var getCandidates = function() {
     var names = {};
 
-    $("#people button.active").each(function() {
-      names[$(this).attr("name")] = true;
+    $("#people input").each(function() {
+      if ($(this).val() != "") {
+        names[$(this).val()] = true;
+      }
     });
 
     return names;
@@ -33,5 +35,18 @@ $(document).ready(function(){
   $("#switchToDebates").click(function() {
     now.switchToDebates();
   });
+  
+  $("#submitQuestion").click(function() {
+    var q = {};
+
+    q.question = $("#question").val();
+    q.ans1 = $("#ans1").val();
+    q.ans2 = $("#ans2").val();
+
+    now.addInstantQuestion(q);
+
+    return false;
+  });
+
   
 });

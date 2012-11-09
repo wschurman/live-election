@@ -37,4 +37,20 @@ $(document).ready(function(){
     $("#debatesli").click();
   };
 
+  now.displayInstantQuestion = function(p) {
+    $("#question").text(p.question);
+
+    $("#ans1").text(p.ans1);
+    $("#ans1").attr("data-val", p.ans1);
+
+    $("#ans2").text(p.ans2);
+    $("#ans2").attr("data-val", p.ans2);
+
+    $("#qModal").modal('show');
+  }
+
+  $("#anss button").click(function() {
+    now.answerInstantQuestion($(this).attr("data-val"));
+  });
+
 });

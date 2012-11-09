@@ -20,20 +20,34 @@ block content
       button.btn(name="saa") SAA
       button.btn(name="secretary") Secretary
 
-    h3 Who's Running
     #people
-      button.btn(data-toggle="button", name="person1") Person 1
-      button.btn(data-toggle="button", name="person2") Person 2
-      button.btn(data-toggle="button", name="person3") Person 3
-      button.btn(data-toggle="button", name="person4") Person 4
-      button.btn(data-toggle="button", name="person5") Person 5
+      form
+        fieldset
+          legend Who's Running
+          input(type="text", placeholder="candidate")
+          input(type="text", placeholder="candidate")
+          input(type="text", placeholder="candidate")
+          input(type="text", placeholder="candidate")
+          input(type="text", placeholder="candidate")
+          input(type="text", placeholder="candidate")
+          input(type="text", placeholder="candidate")
+    button.btn.btn-primary#updatePosition Update Position
+    br
+    br
+    button.btn.btn-primary#updateResults Update Results
+    br
+    br
+    button.btn.btn-primary#switchToDebates Switch To Debates
 
-    .row
-      .span6
-        button.btn.btn-primary#updatePosition Update Position
-    .row
-      .span6
-        button.btn.btn-primary#updateResults Update Results
-    .row
-      .span6
-        button.btn.btn-primary#switchToDebates Switch To Debates
+  #questions
+    form
+      fieldset
+        legend Ask a Question
+        label Question
+        input#question(type="text", placeholder="Ask a question...")
+        label Ans #1
+        input#ans1(type="text")
+        label Ans #2
+        input#ans2(type="text")
+        br
+        button.btn.btn-success#submitQuestion Submit

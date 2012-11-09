@@ -82,7 +82,7 @@ everyone.now.resetSentiment = function() {
   } catch(e) {
     // odd
   }
-}
+};
 
 everyone.now.switchToDebates = function() {
   try {
@@ -90,7 +90,27 @@ everyone.now.switchToDebates = function() {
   } catch(e) {
     
   }
-}
+};
+
+var currentQuestion = null;
+var currentAnswers = {};
+
+everyone.now.addInstantQuestion = function(q) {
+  currentQuestion = q.question;
+  currentAnswers = {};
+  currentAnswers[q.ans1] = 0;
+  currentAnswers[q.ans2] = 0;
+
+  // push to users
+  try {
+    everyone.now.displayInstantQuestion(q);
+    everyone.now.recieveInstantQuestionResults(currentQuestion, currentAnswers);
+  } catch(e) {
+
+  }
+
+  // push to dashboard maybe
+};
 
 /* Dashboard methods */
 
@@ -134,25 +154,35 @@ everyone.now.getExitPollResults = function() {
   } catch(e) {
 
   }
-}
+};
 
 /* Voter methods */
 
 everyone.now.updateFloor = function(val) {
   var me = this.user;
   me.floor = val - 1; // 0th floor is 1st floor
-}
+};
 
 everyone.now.updateSentiment = function(val) {
   var me = this.user;
   me.sentiment = val;
-}
+};
 
 everyone.now.voteExitPoll = function(candidate) {
   var me = this.user;
   me.votes = me.votes || {};
   me.votes[currentPosition] = candidate;
-}
+};
+
+everyone.now.answerInstantQuestion = function(ans) {
+  currentAnswers[ans] += 1;
+
+  try {
+    everyone.now.recieveInstantQuestionResults(currentQuestion, currentAnswers);
+  } catch(e) {
+    
+  }
+};
 
 var updateGraph = function() {
   var totals = [0.0, 0.0];
@@ -188,6 +218,6 @@ var updateGraph = function() {
   } catch(e) {
     // not dash
   }
-}
+};
 
 setInterval(updateGraph, 400);
